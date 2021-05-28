@@ -15,4 +15,6 @@ def getStringFromKeysFile(property) {
 
 
 // Expose the key defined in keys.properties as a variable available for the whole project
-ext.keys = ["apiKey": getStringFromKeysFile('api.key'),]
+ext.keys = ["spaceId"      : getStringFromKeysFile('spaceId'),
+            "environmentId": getStringFromKeysFile('environmentId'),
+            "accessToken"  : getStringFromKeysFile('accessToken')]
