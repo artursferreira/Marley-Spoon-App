@@ -1,4 +1,4 @@
-package com.artur.marleyspoon.ui.detail
+package com.artur.marleyspoon.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

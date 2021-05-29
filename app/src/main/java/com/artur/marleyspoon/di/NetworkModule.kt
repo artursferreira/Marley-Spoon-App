@@ -1,7 +1,6 @@
 package com.artur.marleyspoon.di
 
 import com.artur.marleyspoon.BuildConfig
-import com.artur.marleyspoon.data.service.RecipeService
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +15,5 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-    single { get<Retrofit>().create(RecipeService::class.java) }
 
 }
