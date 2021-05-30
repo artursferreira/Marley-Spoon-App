@@ -75,6 +75,7 @@
                 style="@style/DefaultTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autoLink="web"
                 tools:text="@tools:sample/lorem" />
 
             <TextView
