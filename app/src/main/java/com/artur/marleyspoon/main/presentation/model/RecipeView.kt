@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class RecipeView(
     val id: String? = null,
     val title: String? = null,
-    val calories: Int? = null,
+    val calories: Double? = null,
     val chefName: String? = null,
     val description: String? = null,
     val imageUrl: String? = null,

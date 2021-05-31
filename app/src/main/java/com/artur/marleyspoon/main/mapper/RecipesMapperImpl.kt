@@ -1,20 +1,34 @@
 package com.artur.marleyspoon.main.mapper
 
-import com.artur.marleyspoon.main.data.repository.models.RecipesResponse
 import com.artur.marleyspoon.main.domain.models.Recipe
 import com.artur.marleyspoon.main.presentation.model.RecipeView
+import com.artur.marleyspoon.util.Constants.RECIPE_CALORIES
+import com.artur.marleyspoon.util.Constants.RECIPE_CHEF
+import com.artur.marleyspoon.util.Constants.RECIPE_DESCRIPTION
+import com.artur.marleyspoon.util.Constants.RECIPE_NAME
+import com.artur.marleyspoon.util.Constants.RECIPE_PHOTO
+import com.artur.marleyspoon.util.Constants.RECIPE_TAGS
+import com.artur.marleyspoon.util.Constants.RECIPE_TITLE
+import com.contentful.java.cda.CDAArray
+import com.contentful.java.cda.CDAAsset
+import com.contentful.java.cda.CDAEntry
+import com.contentful.java.cda.LocalizedResource
+import com.contentful.java.cda.image.ImageOption
 
 internal class RecipesMapperImpl : RecipesMapper {
 
-    override fun mapRemoteRecipeToDomain(recipesResponse: RecipesResponse): List<Recipe> {
-        return recipesResponse.items?.map {
+    override fun mapRemoteRecipeToDomain(recipesResponse: CDAArray): List<Recipe> {
+        return recipesResponse.items()?.map {
             Recipe(
-                id = it?.sys?.id,
-                title = it?.fields?.title,
-                calories = it?.fields?.calories,
-                /* chefName = it?.fields?.chef?.,*/
-                description = it?.fields?.description,
-                /* imageUrl = it?.fields?.photo?.sys*/
+                id = it?.id(),
+                title = (it as LocalizedResource).getField<String>(RECIPE_TITLE),
+                calories = it.getField<Double>(RECIPE_CALORIES),
+                chefName = it.getField<CDAEntry>(RECIPE_CHEF)?.getField<String>(RECIPE_NAME),
+                description = it.getField<String>(RECIPE_DESCRIPTION),
+                 imageUrl = it.getField<CDAAsset>(RECIPE_PHOTO)
+                     ?.urlForImageWith(ImageOption.https()),
+                tags = it.getField<ArrayList<CDAEntry>>(RECIPE_TAGS)
+                ?.map { tag -> tag.getField(RECIPE_NAME) }
             )
         } ?: emptyList()
     }
