@@ -8,6 +8,8 @@ import com.artur.marleyspoon.main.data.repository.models.RecipesResponse
 import com.artur.marleyspoon.main.domain.repository.RecipeRepository
 import com.artur.marleyspoon.main.mapper.RecipesMapper
 import com.artur.marleyspoon.main.presentation.model.RecipeView
+import com.artur.marleyspoon.util.Result
+import com.artur.marleyspoon.util.succeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -18,12 +20,22 @@ class MainViewModel(
 
     val recipesLiveData: LiveData<List<RecipeView>>
         get() = _recipesLiveData
-    private val _recipesLiveData: MutableLiveData<List<RecipeView>> = MutableLiveData()
+    val _recipesLiveData: MutableLiveData<List<RecipeView>> = MutableLiveData()
+
+    init {
+        getRecipes()
+    }
 
     fun getRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = recipeRepository.getRecipes()
-            _recipesLiveData.postValue(recipesMapper.mapDomainRecipesToPresentation(result))
+            if (result.succeeded) {
+                val list =
+                    recipesMapper.mapDomainRecipesToPresentation((result as Result.Success).data)
+                _recipesLiveData.postValue(list)
+            } else {
+                _recipesLiveData.postValue(emptyList())
+            }
         }
     }
 

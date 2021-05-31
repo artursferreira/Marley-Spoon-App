@@ -25,7 +25,7 @@ class RecipesMapperUnitTest {
         val domainRecipe = Recipe(
             id = "0",
             title = "Title",
-            calories = 10,
+            calories = 10.0,
             chefName = "Chef Name",
             description = "description",
             imageUrl = "image",
