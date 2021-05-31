@@ -9,19 +9,17 @@ import com.artur.marleyspoon.main.domain.repository.RecipeRepository
 import com.artur.marleyspoon.main.mapper.RecipesMapper
 import com.artur.marleyspoon.main.mapper.RecipesMapperImpl
 import com.contentful.java.cda.CDAClient
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import retrofit2.Retrofit
 
 val recipeModule = module {
 
-    single<RemoteDataSource> { RemoteDataSourceImpl(cdaClient = get()) }
+    single<RemoteDataSource> { RemoteDataSourceImpl(cdaClient = get(), recipesMapper = get()) }
 
     single<RecipesMapper> { RecipesMapperImpl() }
 
     single<RecipeRepository> {
         RecipeRepositoryImpl(
-            recipesMapper = get(),
             remoteDataSource = get()
         )
     }

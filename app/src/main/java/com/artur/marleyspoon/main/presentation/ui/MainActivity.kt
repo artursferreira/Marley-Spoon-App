@@ -3,11 +3,13 @@ package com.artur.marleyspoon.main.presentation.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import com.artur.marleyspoon.databinding.ActivityMainBinding
 import com.artur.marleyspoon.detail.DetailActivity
 import com.artur.marleyspoon.main.presentation.model.RecipeView
 import com.artur.marleyspoon.main.presentation.ui.adapter.RecipeAdapter
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), RecipeAdapter.OnItemClickListener {
 
@@ -25,14 +27,8 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.OnItemClickListener {
 
         binding.recipesRecyclerview.adapter = recipeAdapter
 
-        viewModel.getRecipes()
-
         viewModel.recipesLiveData.observe(this, {
-            if (it.isNullOrEmpty()) {
-                //show error
-            } else {
-                recipeAdapter.submitList(it)
-            }
+            showItems(it)
         })
     }
 
@@ -41,6 +37,18 @@ class MainActivity : AppCompatActivity(), RecipeAdapter.OnItemClickListener {
             putExtra(EXTRA_RECIPE, recipeItem)
         }
         startActivity(intent)
+    }
+
+    fun showItems(list : List<RecipeView>) {
+        binding.progressCircular.visibility = GONE
+        if (list.isNullOrEmpty()) {
+            binding.recipesEmpty.visibility = VISIBLE
+            binding.recipesRecyclerview.visibility = GONE
+        } else {
+            recipeAdapter.submitList(list)
+            binding.recipesEmpty.visibility = GONE
+            binding.recipesRecyclerview.visibility = VISIBLE
+        }
     }
 
     companion object {
