@@ -20,13 +20,13 @@ class MainViewModel(
 
     val recipesLiveData: LiveData<List<RecipeView>>
         get() = _recipesLiveData
-    val _recipesLiveData: MutableLiveData<List<RecipeView>> = MutableLiveData()
+    private val _recipesLiveData: MutableLiveData<List<RecipeView>> = MutableLiveData()
 
     init {
         getRecipes()
     }
 
-    fun getRecipes() {
+    private fun getRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = recipeRepository.getRecipes()
             if (result.succeeded) {

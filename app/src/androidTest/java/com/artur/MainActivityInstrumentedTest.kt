@@ -1,6 +1,5 @@
 package com.artur
 
-import android.content.Context
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
 import androidx.test.espresso.Espresso
@@ -9,10 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.artur.marleyspoon.R
-import com.artur.marleyspoon.main.presentation.model.RecipeView
 import com.artur.marleyspoon.main.presentation.ui.MainActivity
-import com.artur.marleyspoon.main.presentation.ui.MainViewModel
-import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
